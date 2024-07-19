@@ -116,6 +116,7 @@
       const handleRegister = async (event) => {
         event.preventDefault();
         if (formValiation()) {
+          const host = "https://apsona-backend.onrender.com";
           const url = `${host}/api/auth/register`;
           const jsonBody = JSON.stringify({
             username: username.value,

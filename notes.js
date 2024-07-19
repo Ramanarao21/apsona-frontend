@@ -1,4 +1,4 @@
-const url = "http://localhost:3000";
+const url = "https://apsona-backend.onrender.com";
 const noteToken = localStorage.getItem("noteToken");
 
 if (!noteToken) {
@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   const fetchNotes = async () => {
+    
     const res = await fetch(`${url}/api/note/get-notes`, options);
     const { notes: notesData } = await res.json();
     console.log(notesData);

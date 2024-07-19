@@ -119,8 +119,9 @@
             },
             body: jsonBody,
           };
-
-          const res = await fetch(`${url}/api/note/add-note`, options);
+          
+          const host = "https://apsona-backend.onrender.com";
+          const res = await fetch(`${host}/api/note/add-note`, options);
           const { msg } = await res.json();
           console.log(msg);
           if (res.ok === true) {
