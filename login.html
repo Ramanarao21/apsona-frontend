@@ -30,7 +30,7 @@
   <body>
     <div
       class="d-flex justify-content-center flex-column align-items-center"
-      style="height: 100dvh"
+      style="height: 100vh"
     >
       <h1 class="">Login</h1>
       <form
@@ -62,8 +62,8 @@
             value=""
             id="showPassword"
           />
-          <label class="form-check-label" for="flexCheckDefault">
-            Default checkbox
+          <label class="form-check-label" for="showPassword">
+            Show Password
           </label>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -74,15 +74,14 @@
       const email = document.getElementById("email");
       const password = document.getElementById("password");
       const showPassword = document.getElementById("showPassword");
+
       const handleShowPassword = () => {
-        if (showPassword.checked) {
-          password.type = "text";
-        } else {
-          password.type = "password";
-        }
+        password.type = showPassword.checked ? "text" : "password";
       };
-      const formValiation = () => {
-        if (email.value === "" && password.value === "") {
+
+      const formValidation = () => {
+        if (email.value === "" || password.value === "") {
+          alert("Please fill in all fields.");
           return false;
         } else if (password.value.length < 5) {
           alert("Password is too short!");
@@ -93,8 +92,7 @@
 
       const handleLogin = async (event) => {
         event.preventDefault();
-        if (formValiation()) {
-          
+        if (formValidation()) {
           const url = `${host}/api/auth/login`;
           const jsonBody = JSON.stringify({
             email: email.value,
@@ -109,12 +107,20 @@
             },
             body: jsonBody,
           };
-          const res = await fetch(url, options);
-          console.log(res);
-          if (res.ok === true) {
-            const data = await res.json();
-            localStorage.setItem("noteToken", data.jwtToken);
-            window.location.href = "notes.html";
+
+          try {
+            const res = await fetch(url, options);
+            if (res.ok) {
+              const data = await res.json();
+              localStorage.setItem("noteToken", data.jwtToken);
+              window.location.href = "notes.html";
+            } else {
+              const errorData = await res.json();
+              alert(`Error: ${errorData.message}`);
+            }
+          } catch (error) {
+            console.error("Network error:", error);
+            alert("Network error, please try again later.");
           }
         }
       };
