@@ -93,7 +93,7 @@
       const handleLogin = async (event) => {
         event.preventDefault();
         if (formValidation()) {
-          const url = `${host}/api/auth/login.html`;
+          const url = `${host}/api/auth/login`;
           const jsonBody = JSON.stringify({
             email: email.value,
             password: password.value,
